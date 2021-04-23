@@ -11,7 +11,7 @@ class ScopeBuilder<S extends Scope> extends StatefulWidget {
   _ScopeBuilderState<S> createState() =>
       _ScopeBuilderState<S>(builder as ScopeBuilderFunction<S>);
 
-  final Function builder;
+  final ScopeBuilderFunction<S> builder;
 
   ScopeBuilder({
     required this.builder,
@@ -44,7 +44,7 @@ class _ScopeBuilderState<S extends Scope> extends State<ScopeBuilder> {
   void didUpdateWidget(covariant ScopeBuilder<Scope> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.builder != widget.builder) {
-      builder = widget.builder as ScopeBuilderFunction<S>;
+      builder = widget.builder;
     }
   }
 
