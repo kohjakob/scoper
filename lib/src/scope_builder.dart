@@ -8,9 +8,10 @@ typedef ScopeBuilderFunction<S> = Widget Function(
 
 class ScopeBuilder<S extends Scope> extends StatefulWidget {
   @override
-  _ScopeBuilderState<S> createState() => _ScopeBuilderState<S>(builder);
+  _ScopeBuilderState<S> createState() =>
+      _ScopeBuilderState<S>(builder as ScopeBuilderFunction<S>);
 
-  final ScopeBuilderFunction<S> builder;
+  final Function builder;
 
   ScopeBuilder({
     required this.builder,
@@ -36,6 +37,14 @@ class _ScopeBuilderState<S extends Scope> extends State<ScopeBuilder> {
       setState(() {
         listening = true;
       });
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant ScopeBuilder<Scope> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.builder != widget.builder) {
+      builder = widget.builder as ScopeBuilderFunction<S>;
     }
   }
 
