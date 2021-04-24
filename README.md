@@ -6,23 +6,30 @@
 
 ### How to use:
 
-Create scope class by extending `Scope`.
-Use `update()` to trigger a rebuild of `ScopeBuilder<ExampleScope>`.
+Create custom `ExampleScope` by extending `Scope`.
+Use `notifiyBuilders()` to trigger rebuild of `ScopeBuilder<ExampleScope>`.
+Use `notifiyExecutors()` to trigger execution of `ScopeExecutor<ExampleScope>`.
 
 ```
 class CounterScope extends Scope {
   int _counter = 0;
+  int _divider = 7;
 
   increment() {
     _counter++;
-    update();
+    notifiyBuilders();
+
+    if(_counter % _divider == 0) {
+      notifiyExecutors();
+    }
   }
 
   get counter => _counter;
+  get divider => _divider;
 }
 ```
 
-Register scope-instances by passing them to a `ScopeRegistrant` at the root of the widget-tree.
+Register your scopes by passing them to a `ScopeRegistrant` at the root of the widget-tree.
 
 ```
 ScopeRegistrant(
@@ -30,11 +37,13 @@ ScopeRegistrant(
         CounterScope(),
         ExampleScope(),
     ],
-    child: Container(),
+    child: Container(
+      child: (...)
+    ),
 )
 ```
 
-Use a `ScopeBuilder<ExampleScope>` to build widgets depending on a given scope.
+Use a `ScopeBuilder<ExampleScope>` to build widgets depending on the given scope.
 
 ```
 ScopeBuilder<CounterScope>(
@@ -42,6 +51,21 @@ ScopeBuilder<CounterScope>(
         return Text(scope.counter.toString());
     },
 ),
+```
+
+Use a `ScopeExecutor<ExampleScope>` to execute certain logic depending on the given scope.
+
+```
+ScopeExecutor<CounterScope>(
+    executor: (context, scope) {
+      final message = "This number is divisible by " + scope.divider.toString();
+      final snackbar = SnackBar(content: Text(message));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    },
+    child: Container(
+      child (...)
+    ),
+)
 ```
 
 Use `get<ExampleScope>` to get a scope from `context` and call it's methods (for example in onPressed).

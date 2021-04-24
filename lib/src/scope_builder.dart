@@ -29,12 +29,13 @@ class _ScopeBuilderState<S extends Scope> extends State<ScopeBuilder<S>> {
     super.didChangeDependencies();
 
     if (!listening) {
-      scope = this.context.get<S>();
-      scope.addListener(() {
+      final scope = this.context.get<S>();
+      scope.builderNotifier.addListener(() {
         setState(() {});
       });
       setState(() {
         this.listening = true;
+        this.scope = scope;
       });
     }
   }

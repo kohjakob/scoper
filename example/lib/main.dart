@@ -7,13 +7,19 @@ void main() {
 
 class CounterScope extends Scope {
   int _counter = 0;
+  int _divider = 7;
 
   increment() {
     _counter++;
-    update();
+    notifyBuilders();
+
+    if (_counter % _divider == 0) {
+      notifyExecutors();
+    }
   }
 
   get counter => _counter;
+  get divider => _divider;
 }
 
 class MyApp extends StatelessWidget {
@@ -50,29 +56,41 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      body: ScopeExecutor<CounterScope>(
+        executor: (context, scope) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "This number is divisible by " + scope.divider.toString(),
+              ),
+              duration: Duration(milliseconds: 510),
             ),
-            ScopeBuilder<CounterScope>(
-              builder: (context, scope) {
-                return Text(
-                  scope.counter.toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              },
-            ),
-          ],
+          );
+        },
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              ScopeBuilder<CounterScope>(
+                builder: (context, scope) {
+                  return Text(
+                    scope.counter.toString(),
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.get<CounterScope>().increment(),
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
