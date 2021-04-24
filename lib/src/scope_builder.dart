@@ -18,7 +18,7 @@ class ScopeBuilder<S extends Scope> extends StatefulWidget {
 }
 
 class _ScopeBuilderState<S extends Scope> extends State<ScopeBuilder<S>> {
-  S? scope;
+  late S scope;
   ScopeBuilderFunction<S> builder;
   bool listening = false;
 
@@ -29,16 +29,13 @@ class _ScopeBuilderState<S extends Scope> extends State<ScopeBuilder<S>> {
     super.didChangeDependencies();
 
     if (!listening) {
-      scope?.dispose();
       scope = this.context.get<S>();
-      if (scope != null) {
-        scope!.addListener(() {
-          setState(() {});
-        });
-        setState(() {
-          this.listening = true;
-        });
-      }
+      scope.addListener(() {
+        setState(() {});
+      });
+      setState(() {
+        this.listening = true;
+      });
     }
   }
 
@@ -55,6 +52,6 @@ class _ScopeBuilderState<S extends Scope> extends State<ScopeBuilder<S>> {
 
   @override
   Widget build(BuildContext context) {
-    return this.builder(context, scope!);
+    return this.builder(context, scope);
   }
 }

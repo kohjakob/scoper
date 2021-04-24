@@ -1,6 +1,6 @@
 name: scoper
 description: A minimal state management solution for Flutter.
-version: 0.0.1+4
+version: 0.0.1+5
 homepage: https://github.com/kohjakob/scoper
 
 environment:
