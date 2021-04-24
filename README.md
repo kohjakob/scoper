@@ -63,7 +63,7 @@ ScopeExecutor<CounterScope>(
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     },
     child: Container(
-      child (...)
+      child: (...)
     ),
 )
 ```
