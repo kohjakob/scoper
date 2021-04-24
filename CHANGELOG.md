@@ -1,3 +1,5 @@
+## [0.0.1+4] - Fix disposing from 0.0.1+3 (Apr 24, 2021)
+
 ## [0.0.1+3] - Disposing old scope listeners (Apr 24, 2021)
 
 ## [0.0.1+2] - Inferred runtime types in ScopeBuilder (Apr 24, 2021)
