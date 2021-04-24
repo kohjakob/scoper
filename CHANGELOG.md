@@ -1,3 +1,5 @@
+## [0.0.2+1] - Updated README.md (Apr 24, 2021)
+
 ## [0.0.2+0] - Added ScopeExecutor (Apr 24, 2021)
 
 ## [0.0.1+5] - Fix disposing from 0.0.1+5 (Apr 24, 2021)
