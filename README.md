@@ -1,6 +1,7 @@
 ## Scoper
 
 ### A minimal state management solution for Flutter.
+[Check it out on pub.dev](https://pub.dev/packages/scoper)
 
 ---
 
